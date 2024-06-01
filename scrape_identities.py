@@ -1,3 +1,10 @@
+"""
+name    : scrape_identities.py
+ver     : 0.02
+author  : Paul Dunlop + AI
+purpose : gets all your roles (filteded by keyword) for each account and creates profiles for use with aws cli config files
+"""
+version="0.02" # used in console output
 # Define keywords to filter out roles
 keywords_to_filter = ["ReadOnly", "Catalog"]
 
@@ -49,7 +56,6 @@ def role_matches_keywords(role_name, keywords):
 #################################################
 # MAIN
 #################################################
-version = "1.00"
 # clear the screen
 clear_screen()
 
