@@ -1,0 +1,8 @@
+# https://docs.amazonaws.cn/en_us/cli/latest/userguide/cli-configure-sso.html
+[profile primary]
+sso_start_url = https://my-sso-portal.awsapps.com/start
+sso_region = us_east-1
+sso_account_id = 123456789011
+sso_role_name = ReadAccess
+region = us_west-2
+output = json
