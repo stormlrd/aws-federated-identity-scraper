@@ -1,6 +1,7 @@
 generated/
 config.new
 sp_conf.json
+awscli_config.new
 
 # visual studio
 .vs/
