@@ -7,7 +7,11 @@ purpose : gets all your roles (filteded by keyword) for each account and creates
 
 version = "0.03"  # used in console output
 # Define keywords to filter out roles
-keywords_to_filter = ["ReadOnly", "Catalog"]
+keywords_to_filter = [
+    "ReadOnly",
+    "Catalog",
+    "AWSServiceCatalogEndUserAccess",
+]  # Add more keywords as needed for roles you want to filter out
 
 import os
 import json

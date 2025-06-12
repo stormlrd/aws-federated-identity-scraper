@@ -3,6 +3,6 @@
 sso_start_url = https://my-sso-portal.awsapps.com/start
 sso_region = ap-southeast-2
 sso_account_id = 123456789011
-sso_role_name = ReadAccess
+sso_role_name = AWSReadOnlyAccess
 region = ap-southeast-2
 output = json
