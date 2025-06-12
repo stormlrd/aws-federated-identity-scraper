@@ -1,11 +1,21 @@
 """
 name    : scrape_identities.py
-ver     : 0.03
+ver     : 0.05
 author  : Paul Dunlop + AI
 purpose : gets all your roles (filteded by keyword) for each account and creates profiles for use with aws cli config files
 """
 
-version = "0.03"  # used in console output
+version = "0.05"  # used in console output
+
+# ============================================================
+# CONFIGURATION - MODIFY THESE VALUES BEFORE RUNNING THE SCRIPT
+# ============================================================
+SSO_START_URL = "your_sso_start_url"  # e.g., "https://my-sso-portal.awsapps.com/start"
+SSO_REGION = "your_sso_region"        # e.g., "ap-southeast-2"
+AWS_REGION = "your_region"            # e.g., "ap-southeast-2"
+OUTPUT_FORMAT = "your_output_format"  # e.g., "json"
+# ============================================================
+
 # Define keywords to filter out roles
 keywords_to_filter = [
     "ReadOnly",
@@ -19,6 +29,7 @@ import configparser
 import subprocess
 from pathlib import Path
 from datetime import datetime
+import sys
 
 
 def clear_screen():
@@ -64,6 +75,17 @@ def role_matches_keywords(role_name, keywords):
     return any(keyword.lower() in role_name.lower() for keyword in keywords)
 
 
+def check_default_values():
+    """Check if default placeholder values are still being used"""
+    default_values = ["your_sso_start_url", "your_sso_region", "your_region", "your_output_format"]
+    config_values = [SSO_START_URL, SSO_REGION, AWS_REGION, OUTPUT_FORMAT]
+    
+    for value in config_values:
+        if value in default_values:
+            return True
+    return False
+
+
 #################################################
 # MAIN
 #################################################
@@ -76,6 +98,17 @@ print(f"scrape_identities v {version}")
 print("Author: Paul Dunlop")
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("Roles to filter: ", keywords_to_filter)
+
+# Check if default values need to be updated
+if check_default_values():
+    print("\n\n⚠️ ERROR: Default configuration values have not been updated! ⚠️")
+    print("You need to modify the script and update the following values at the top of the script:")
+    print("  - SSO_START_URL: Your SSO portal URL (e.g., \"https://my-sso-portal.awsapps.com/start\")")
+    print("  - SSO_REGION: Your SSO region (e.g., \"ap-southeast-2\")")
+    print("  - AWS_REGION: Your preferred AWS region (e.g., \"ap-southeast-2\")")
+    print("  - OUTPUT_FORMAT: Your preferred output format (e.g., \"json\")")
+    print("\nPlease update these values in the script before running it again.")
+    sys.exit(1)
 
 # Check if the 'primary' profile exists
 if not check_profile_exists("primary"):
@@ -173,12 +206,12 @@ for account in accounts["accountList"]:
             + '" {\n'
         )
         config[section_name] = {
-            "sso_start_url": "your_sso_start_url",
-            "sso_region": "your_sso_region",
+            "sso_start_url": SSO_START_URL,
+            "sso_region": SSO_REGION,
             "sso_account_id": temp_role_accountId,
             "sso_role_name": temp_role_name,
-            "region": "your_region",
-            "output": "your_output_format",
+            "region": AWS_REGION,
+            "output": OUTPUT_FORMAT,
         }
 
         file.write(sp_section_name)
