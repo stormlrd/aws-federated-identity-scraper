@@ -10,10 +10,10 @@ version = "0.05"  # used in console output
 # ============================================================
 # CONFIGURATION - MODIFY THESE VALUES BEFORE RUNNING THE SCRIPT
 # ============================================================
-SSO_START_URL = "your_sso_start_url"  # e.g., "https://my-sso-portal.awsapps.com/start"
-SSO_REGION = "your_sso_region"        # e.g., "ap-southeast-2"
-AWS_REGION = "your_region"            # e.g., "ap-southeast-2"
-OUTPUT_FORMAT = "your_output_format"  # e.g., "json"
+SSO_START_URL = "https://dunlop.awsapps.com/start"  # e.g., "https://my-sso-portal.awsapps.com/start"
+SSO_REGION = "ap-southeast-2"  # e.g., "ap-southeast-2"
+AWS_REGION = "ap-southeast-2"  # e.g., "ap-southeast-2"
+OUTPUT_FORMAT = "json"  # e.g., "json"
 # ============================================================
 
 # Define keywords to filter out roles
@@ -77,9 +77,14 @@ def role_matches_keywords(role_name, keywords):
 
 def check_default_values():
     """Check if default placeholder values are still being used"""
-    default_values = ["your_sso_start_url", "your_sso_region", "your_region", "your_output_format"]
+    default_values = [
+        "your_sso_start_url",
+        "your_sso_region",
+        "your_region",
+        "your_output_format",
+    ]
     config_values = [SSO_START_URL, SSO_REGION, AWS_REGION, OUTPUT_FORMAT]
-    
+
     for value in config_values:
         if value in default_values:
             return True
@@ -102,11 +107,15 @@ print("Roles to filter: ", keywords_to_filter)
 # Check if default values need to be updated
 if check_default_values():
     print("\n\n⚠️ ERROR: Default configuration values have not been updated! ⚠️")
-    print("You need to modify the script and update the following values at the top of the script:")
-    print("  - SSO_START_URL: Your SSO portal URL (e.g., \"https://my-sso-portal.awsapps.com/start\")")
-    print("  - SSO_REGION: Your SSO region (e.g., \"ap-southeast-2\")")
-    print("  - AWS_REGION: Your preferred AWS region (e.g., \"ap-southeast-2\")")
-    print("  - OUTPUT_FORMAT: Your preferred output format (e.g., \"json\")")
+    print(
+        "You need to modify the script and update the following values at the top of the script:"
+    )
+    print(
+        '  - SSO_START_URL: Your SSO portal URL (e.g., "https://my-sso-portal.awsapps.com/start")'
+    )
+    print('  - SSO_REGION: Your SSO region (e.g., "ap-southeast-2")')
+    print('  - AWS_REGION: Your preferred AWS region (e.g., "ap-southeast-2")')
+    print('  - OUTPUT_FORMAT: Your preferred output format (e.g., "json")')
     print("\nPlease update these values in the script before running it again.")
     sys.exit(1)
 
@@ -177,10 +186,10 @@ config_file_path = "generated/awscli_config.new"
 
 # remove the steampipe config file first
 if os.path.exists("generated/steampipe_sp_conf.json"):
-    os.remove("generated/steampipe_sp_conf.json")  # get rid of any pre-existing files
+    os.remove("generated/aws.spc")  # get rid of any pre-existing files
 
 # open a new one
-file = open("generated/steampipe_sp_conf.json", "w")
+file = open("generated/aws.spc", "w")
 aws_all = ""  # tracking var
 
 print("Scraping your roles per account...")
